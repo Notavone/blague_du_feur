@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quoi?</title>
+
+    <style>
+
+        body, html {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #labelQuoi {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    </style>
+
+</head>
+
+<body>
+<label for="quoi" id="labelQuoi">
+    Écrit "quoi?" mon reuf
+    <input type="text" id="quoi" placeholder="Quoi?">
+</label>
+</body>
+
+<script type="application/javascript">
+    const inputQuoi = document.getElementById('quoi');
+    const labelQuoi = document.getElementById('labelQuoi');
+    const largeurPage = window.innerWidth;
+    const hauteurPage = window.innerHeight;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        inputQuoi.focus();
+
+        inputQuoi.addEventListener("blur", () => {
+            inputQuoi.focus();
+        });
+
+        inputQuoi.addEventListener('input', (e) => {
+            if ("QUOI?" === e.target.value.trim().toUpperCase()) {
+                ejfrgkjjnv();
+            }
+        });
+    });
+
+    function ecritureFeurAleatoire() {
+        let feur = ["F", "E", "U", "R", "!"];
+        for (let i = 0; i < feur.length; i++) {
+            const element = feur[i];
+            if (Math.random() > 0.5) {
+                feur[i] = element.toLowerCase();
+            }
+        }
+
+        return feur.join("");
+    }
+
+    function couleurCSSAleatoire() {
+        return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
+    }
+
+    function yAleatoire() {
+        return Math.floor(Math.random() * hauteurPage) + 1;
+    }
+
+    function xAleatoire() {
+        return Math.floor(Math.random() * largeurPage) + 1;
+    }
+
+    function ejfrgkjjnv() {
+        labelQuoi.remove();
+
+        for (let i = 0; i < 300; i++) {
+            const ceFeur = document.createElement('h1');
+            ceFeur.innerHTML = ecritureFeurAleatoire();
+            ceFeur.style.position = "absolute";
+            ceFeur.style.color = couleurCSSAleatoire();
+            ceFeur.style.transition = "all 400ms ease-in-out";
+            ceFeur.style.top = yAleatoire() + "px";
+            ceFeur.style.left = xAleatoire() + "px";
+            document.body.appendChild(ceFeur);
+
+            setTimeout(() => {
+                ceFeur.style.top = yAleatoire() + "px";
+                ceFeur.style.left = xAleatoire() + "px";
+            }, 0);
+
+            setInterval(() => {
+                ceFeur.style.left = xAleatoire() + "px";
+                ceFeur.style.top = yAleatoire() + "px";
+            }, 1000);
+        }
+
+        document.title = ecritureFeurAleatoire();
+        setInterval(() => {
+            document.title = ecritureFeurAleatoire();
+        }, 1000);
+
+    }
+
+
+</script>
+
+</html>
