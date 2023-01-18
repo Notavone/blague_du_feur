@@ -98,6 +98,8 @@
             setInterval(() => {
                 ceFeur.style.left = xAleatoire() + "px";
                 ceFeur.style.top = yAleatoire() + "px";
+                ceFeur.innerHTML = ecritureFeurAleatoire();
+                ceFeur.style.color = couleurCSSAleatoire();
             }, 1000);
         }
 
