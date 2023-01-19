@@ -15,6 +15,10 @@
             width: 100%;
         }
 
+        h1 {
+            will-change: transform;
+        }
+
         #labelQuoi {
             position: absolute;
             top: 50%;
@@ -36,8 +40,6 @@
 <script type="application/javascript">
     const inputQuoi = document.getElementById('quoi');
     const labelQuoi = document.getElementById('labelQuoi');
-    const largeurPage = window.innerWidth;
-    const hauteurPage = window.innerHeight;
 
     document.addEventListener("DOMContentLoaded", () => {
         inputQuoi.focus();
@@ -54,15 +56,8 @@
     });
 
     function ecritureFeurAleatoire() {
-        let feur = ["F", "E", "U", "R", "!"];
-        for (let i = 0; i < feur.length; i++) {
-            const element = feur[i];
-            if (Math.random() > 0.5) {
-                feur[i] = element.toLowerCase();
-            }
-        }
-
-        return feur.join("");
+        const tableauFeur = ['feur', 'feuR', 'feUr', 'feUR', 'fEur', 'fEuR', 'fEUr', 'fEUR', 'Feur', 'FeuR', 'FeUr', 'FeUR', 'FEur', 'FEuR', 'FEUr', 'FEUR', 'feur!', 'feuR!', 'feUr!', 'feUR!', 'fEur!', 'fEuR!', 'fEUr!', 'fEUR!', 'Feur!', 'FeuR!', 'FeUr!', 'FeUR!', 'FEur!', 'FEuR!', 'FEUr!', 'FEUR!',];
+        return tableauFeur[Math.floor(Math.random() * tableauFeur.length)];
     }
 
     function couleurCSSAleatoire() {
@@ -70,44 +65,84 @@
     }
 
     function yAleatoire() {
-        return Math.floor(Math.random() * hauteurPage) + 1;
+        const hauteurPage = window.innerHeight;
+        return Math.floor(Math.random() * hauteurPage);
     }
 
     function xAleatoire() {
-        return Math.floor(Math.random() * largeurPage) + 1;
+        const largeurPage = window.innerWidth;
+        return Math.floor(Math.random() * largeurPage);
+    }
+
+    function rotationAleatoire() {
+        return Math.floor(Math.random() * 90) - 45;
+    }
+
+    function majFeur(ceFeur) {
+        ceFeur.style.left = xAleatoire() + "px";
+        ceFeur.style.top = yAleatoire() + "px";
+        ceFeur.innerHTML = ecritureFeurAleatoire();
+        ceFeur.style.color = couleurCSSAleatoire();
+        ceFeur.style.transform = `rotate(${rotationAleatoire()}deg)`;
+        ceFeur.style.transform += " translateZ(0)";
     }
 
     function ejfrgkjjnv() {
         labelQuoi.remove();
 
-        for (let i = 0; i < 300; i++) {
+        for (let i = 0; i < 1000; i++) {
+            const tempsReactionInitial = Math.floor(Math.random() * 200);
+            const tempsReactionFeur = Math.floor(Math.random() * 100) * 70 + 1000;
             const ceFeur = document.createElement('h1');
-            ceFeur.innerHTML = ecritureFeurAleatoire();
             ceFeur.style.position = "absolute";
-            ceFeur.style.color = couleurCSSAleatoire();
-            ceFeur.style.transition = "all 400ms ease-in-out";
-            ceFeur.style.top = yAleatoire() + "px";
-            ceFeur.style.left = xAleatoire() + "px";
+            ceFeur.style.transition = "400ms ease-in-out";
+            ceFeur.style.transitionProperty = "left, top, transform";
+            majFeur(ceFeur);
             document.body.appendChild(ceFeur);
 
-            setTimeout(() => {
-                ceFeur.style.top = yAleatoire() + "px";
-                ceFeur.style.left = xAleatoire() + "px";
-            }, 0);
+            setTimeoutWithRAF(() => {
+                majFeur(ceFeur);
+            }, tempsReactionInitial);
 
-            setInterval(() => {
-                ceFeur.style.left = xAleatoire() + "px";
-                ceFeur.style.top = yAleatoire() + "px";
-                ceFeur.innerHTML = ecritureFeurAleatoire();
-                ceFeur.style.color = couleurCSSAleatoire();
-            }, 1000);
+            setIntervalWithRAF(() => {
+                majFeur(ceFeur);
+            }, tempsReactionFeur);
         }
 
         document.title = ecritureFeurAleatoire();
         setInterval(() => {
             document.title = ecritureFeurAleatoire();
-        }, 1000);
+        }, 500);
 
+    }
+
+    function setIntervalWithRAF(callback, interval) {
+        let lastTime = 0;
+
+        function loop(time) {
+            if (time - lastTime >= interval) {
+                lastTime = time;
+                callback();
+            }
+            requestAnimationFrame(loop);
+        }
+
+        requestAnimationFrame(loop);
+    }
+
+    function setTimeoutWithRAF(callback, timeout) {
+        let lastTime = 0;
+
+        function loop(time) {
+            if (time - lastTime >= timeout) {
+                lastTime = time;
+                callback();
+            } else {
+                requestAnimationFrame(loop);
+            }
+        }
+
+        requestAnimationFrame(loop);
     }
 
 
