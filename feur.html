@@ -10,16 +10,28 @@
 
     <style>
 
-        body, html, #leBody {
+        body, html {
             overflow: hidden;
             margin: 0;
             padding: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        body {
+            will-change: background-color;
+        }
+
+        #leBody {
             height: 100%;
             width: 100%;
         }
 
-        h1 {
-            will-change: transform;
+        .feur {
+            position: absolute;
+            transition: left 400ms ease-in-out, top 400ms ease-in-out, transform 400ms ease-in-out;
+            transform: translateZ(0);
+            will-change: left, top, transform;
         }
 
         #labelQuoi {
@@ -64,6 +76,13 @@
                 ejfrgkjjnv();
             }
         });
+
+        window.addEventListener("resize", () => {
+            console.log("resize");
+            for (const ceFeur of document.getElementsByClassName("feur")) {
+                majFeur(ceFeur);
+            }
+        });
     });
 
     function ecritureFeurAleatoire() {
@@ -75,13 +94,13 @@
         return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
     }
 
-    function yAleatoire() {
-        const hauteurPage = window.innerHeight;
+    function yAleatoire(tailleTexte) {
+        const hauteurPage = leBody.getBoundingClientRect().height - tailleTexte;
         return Math.floor(Math.random() * hauteurPage);
     }
 
-    function xAleatoire() {
-        const largeurPage = window.innerWidth;
+    function xAleatoire(tailleTexte) {
+        const largeurPage = leBody.getBoundingClientRect().width - tailleTexte;
         return Math.floor(Math.random() * largeurPage);
     }
 
@@ -90,27 +109,24 @@
     }
 
     function majFeur(ceFeur) {
-        ceFeur.style.left = xAleatoire() + "px";
-        ceFeur.style.top = yAleatoire() + "px";
         ceFeur.innerHTML = ecritureFeurAleatoire();
-        ceFeur.style.color = couleurCSSAleatoire();
         ceFeur.style.transform = `rotate(${rotationAleatoire()}deg)`;
-        ceFeur.style.transform += " translateZ(0)";
+        ceFeur.style.color = couleurCSSAleatoire();
+        ceFeur.style.left = xAleatoire(ceFeur.getBoundingClientRect().width + 20) + "px";
+        ceFeur.style.top = yAleatoire(ceFeur.getBoundingClientRect().height + 20) + "px";
     }
 
     function ejfrgkjjnv() {
         labelQuoi.remove();
         avertissementRelou.remove();
 
-        for (let i = 0; i < 400; i++) {
+        for (let i = 0; i < 300; i++) {
             const tempsReactionInitial = Math.floor(Math.random() * 200);
             const tempsReactionFeur = Math.floor(Math.random() * 50) * 70 + 1000;
             const ceFeur = document.createElement('h1');
-            ceFeur.style.position = "absolute";
-            ceFeur.style.transition = "400ms ease-in-out";
-            ceFeur.style.transitionProperty = "left, top, transform";
+            ceFeur.classList.add('feur');
             majFeur(ceFeur);
-            document.body.appendChild(ceFeur);
+            leBody.appendChild(ceFeur);
 
             setTimeoutWithRAF(() => {
                 majFeur(ceFeur);
@@ -122,9 +138,10 @@
         }
 
         document.title = ecritureFeurAleatoire();
+        document.body.style.backgroundColor = couleurCSSAleatoire();
         setInterval(() => {
             document.title = ecritureFeurAleatoire();
-            leBody.style.backgroundColor = couleurCSSAleatoire();
+            document.body.style.backgroundColor = couleurCSSAleatoire();
         }, 500);
 
     }
