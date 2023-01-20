@@ -120,7 +120,9 @@
         labelQuoi.remove();
         avertissementRelou.remove();
 
-        for (let i = 0; i < 300; i++) {
+        const nbFeur = undefined ?? Math.floor(leBody.getBoundingClientRect().width * leBody.getBoundingClientRect().height / 5000);
+
+        for (let i = 0; i < nbFeur; i++) {
             const tempsReactionInitial = Math.floor(Math.random() * 200);
             const tempsReactionFeur = Math.floor(Math.random() * 50) * 70 + 1000;
             const ceFeur = document.createElement('h1');
