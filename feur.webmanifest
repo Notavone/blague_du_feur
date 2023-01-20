@@ -1,0 +1,23 @@
+{
+  "name": "Feur",
+  "short_name": "Feur",
+  "description": "Quoi? Feur.",
+  "icons": [
+    {
+      "src": "quoi.svg",
+      "type": "image/svg+xml",
+      "sizes": "48x48 72x72 96x96 128x128 256x256 512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "quoi.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./",
+  "display": "fullscreen",
+  "theme_color": "#B12A34",
+  "background_color": "#B12A34"
+}
