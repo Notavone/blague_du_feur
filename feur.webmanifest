@@ -450,6 +450,16 @@
     {
       "src": "ios/1024.png",
       "sizes": "1024x1024"
+    },
+    {
+       "src": "192.png",
+       "sizes": "192x192",
+       "purpose": "any"
+    },
+    {
+       "src": "512.png",
+       "sizes": "512x512",
+       "purpose": "maskable"
     }
   ],
   "start_url": "./",
@@ -466,5 +476,8 @@
   "prefer_related_applications": false,
   "categories": [
     "entertainment"
-  ]
+  ],
+  "launch_handler": {
+      "client_mode": ["navigate-existing, auto"]
+  }
 }
